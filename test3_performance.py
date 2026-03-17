@@ -1,16 +1,17 @@
 def find_duplicates(items):
-    duplicates = []
-    for i in range(len(items)):
-        for j in range(len(items)):
-            if i != j and items[i] == items[j]:
-                if items[i] not in duplicates:
-                    duplicates.append(items[i])
-    return duplicates
+    seen = set()
+    duplicates = set()
+    for item in items:
+        if item in seen:
+            duplicates.add(item)
+        else:
+            seen.add(item)
+    return list(duplicates)
 
 def process_files():
-    handles = []
-    for i in range(1000):
-        f = open(f"file_{i}.txt", "w")
-        handles.append(f)
-        f.write("data")
-    # files never closed
+    try:
+        for i in range(1000):
+            with open(f"file_{i}.txt", "w") as f:
+                f.write("data")
+    except IOError as e:
+        print(f"An error occurred: {e}")
